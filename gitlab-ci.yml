@@ -1,0 +1,13 @@
+stages:
+    - build
+    - test
+    - push
+
+build_image:
+    stage: build
+    script:
+        - docker build . -t gitlab-runner:latest
+    artifacts:
+        paths:
+            - /var/lib/docker/gitlab-runner
+
