@@ -5,9 +5,17 @@ stages:
 
 build_image:
     stage: build
+    image:
+        name: gcr.io/kaniko-project/executor:debug
+        entrypoint: [""]
     script:
-        - docker build . -t gitlab-runner:latest
-    artifacts:
-        paths:
-            - /var/lib/docker/gitlab-runner
+      - #echo "ça build pas lol"
+      - #echo "Va cherche cette image pour build noob https://github.com/Zenika/nc-kubernetes-dev-tools/issues/19"
+      - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+
+#    script:
+#        - docker build . -t gitlab-runner:latest
+#    artifacts:
+#        paths:
+#            - /var/lib/docker/gitlab-runner
 
