@@ -2,12 +2,9 @@ FROM debian:stable
 
 LABEL maintainer="chevreux.matthieu@hotmail.com"
 
-#install docker
+#install curl and gettext 
 RUN apt-get update && \
-    apt-get --no-install-recommends install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" && \
-    apt-get update && apt-get --no-install-recommends install -y docker-ce docker-ce-cli containerd.io
+    apt-get --no-install-recommends install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common gettext-base
 
 # install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/` \
