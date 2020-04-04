@@ -1,7 +1,7 @@
 stages:
     - build
 
-.buid-template: &build-template
+.build-template: &build-template
   stage: build
   image: docker:19.03.1
   services:
