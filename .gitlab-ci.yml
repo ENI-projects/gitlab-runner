@@ -1,5 +1,5 @@
 stages:
-    - build
+  - build
 
 .build-template: &build-template
   stage: build
@@ -17,10 +17,10 @@ testing:
     - tags
 
 production:
-    <<: *build-template
-    script:
-      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-      - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG .
-      - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+  <<: *build-template
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
   only:
     - tags
