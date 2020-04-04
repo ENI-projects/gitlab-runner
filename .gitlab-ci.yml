@@ -1,13 +1,26 @@
 stages:
     - build
 
-build_and_push:
-    stage: build
-    image: docker:19.03.1
-    stage: build
-    services:
-      - docker:dind
+.buid-template: &build-template
+  stage: build
+  image: docker:19.03.1
+  services:
+    - docker:dind
+
+testing:
+  <<: *build-template
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  except:
+    - tags
+
+production:
+    <<: *build-template
     script:
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-      - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
-      - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+      - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG .
+      - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+  only:
+    - tags
