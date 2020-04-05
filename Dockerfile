@@ -12,5 +12,6 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/` \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl
 
-#install hasura cli
-RUN curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+#install hasura cli and clear apt cache
+RUN ["/bin/bash", "-c", "set -o pipefail && curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash"] \
+    apt-get clear cache
