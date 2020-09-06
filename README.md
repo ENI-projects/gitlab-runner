@@ -5,16 +5,11 @@ In this project's CI, the gitlab-runner is built and the other projecst' CI/CD w
 
 ## Content of the runner image
 
-The runner's base image is debian:stable-slim and the following packages are installed :
+The runner's base image is debian:stable and the following packages are installed :
 
-* apt-transport-https
-* ca-certificates
-* curl
-* gnupg2
-* software-properties-common
-* gettext-base
-* kubectl
+* kubectl version 1.17.0
 * hasura-cli v1.1.1
+* ansible version 2.7.7+dfsg-1 (and its dependancies)
 
 ## Build process
 

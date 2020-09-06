@@ -13,7 +13,15 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL
 #final build
 FROM debian:stable
 LABEL maintainer="chevreux.matthieu@hotmail.com"
+ENV ANSIBLE_VERSION 2.7.7+dfsg-1
 # install kubectl
 COPY --from=KUBECTL kubectl /usr/local/bin/kubectl
 #install hasura cli and clear apt cache
 COPY --from=HASURA /node_modules/hasura-cli/hasura /usr/local/bin/hasura
+#installing ansible
+RUN apt-get update && apt-get --no-install-recommends install -y gnupg2
+RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 && \
+    apt-get update && \
+    apt-get --no-install-recommends install -y ansible=${ANSIBLE_VERSION} && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
